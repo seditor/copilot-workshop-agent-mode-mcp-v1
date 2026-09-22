@@ -11,6 +11,7 @@ const themeToggle = document.getElementById("theme-toggle");
 const filterButtons = document.querySelectorAll(".filter-button");
 
 const THEME_STORAGE_KEY = "todo-theme";
+const FILTER_STORAGE_KEY = "todo-filter";
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
 let currentFilter = "all";
 
@@ -26,6 +27,21 @@ function applyTheme(theme) {
 
 function getInitialTheme() {
   return localStorage.getItem(THEME_STORAGE_KEY) || (systemTheme.matches ? "dark" : "light");
+}
+
+function getInitialFilter() {
+  const savedFilter = localStorage.getItem(FILTER_STORAGE_KEY);
+  const validFilters = ["all", "active", "completed"];
+  return validFilters.includes(savedFilter) ? savedFilter : "all";
+}
+
+function applyFilter(filter) {
+  currentFilter = filter;
+  filterButtons.forEach((button) => {
+    const isActive = button.dataset.filter === currentFilter;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
 }
 
 // 從 localStorage 讀取資料；資料格式不正確時使用空清單。
@@ -103,12 +119,8 @@ themeToggle.addEventListener("click", () => {
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    currentFilter = button.dataset.filter;
-    filterButtons.forEach((currentButton) => {
-      const isActive = currentButton === button;
-      currentButton.classList.toggle("active", isActive);
-      currentButton.setAttribute("aria-pressed", String(isActive));
-    });
+    applyFilter(button.dataset.filter);
+    localStorage.setItem(FILTER_STORAGE_KEY, currentFilter);
     render();
   });
 });
@@ -157,4 +169,5 @@ list.addEventListener("click", (event) => {
 });
 
 applyTheme(getInitialTheme());
+applyFilter(getInitialFilter());
 render();

@@ -138,6 +138,7 @@ h1 {
 .add-button:focus-visible,
 .theme-toggle:focus-visible,
 .filter-button:focus-visible,
+.clear-completed-button:focus-visible,
 .delete-button:focus-visible,
 .todo-item input:focus-visible {
   outline: 3px solid rgba(225, 168, 91, 0.45);
@@ -247,10 +248,30 @@ h1 {
 .app-footer {
   margin-top: 24px;
   padding-top: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   color: var(--color-text-muted);
   border-top: 1px solid var(--color-border);
   font-size: 0.9rem;
-  text-align: right;
+}
+
+.clear-completed-button {
+  padding: 7px 10px;
+  color: var(--color-danger);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.clear-completed-button:hover {
+  background: var(--color-danger-hover);
+  border-color: var(--color-danger);
 }
 
 .sr-only {

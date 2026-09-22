@@ -7,6 +7,7 @@ const input = document.getElementById("todo-input");
 const list = document.getElementById("todo-list");
 const emptyState = document.getElementById("empty-state");
 const remainingCount = document.getElementById("remaining-count");
+const clearCompletedButton = document.getElementById("clear-completed-button");
 const themeToggle = document.getElementById("theme-toggle");
 const filterButtons = document.querySelectorAll(".filter-button");
 
@@ -93,6 +94,7 @@ function render() {
     emptyState.textContent = "目前沒有已完成的事項。";
   }
   remainingCount.textContent = `未完成:${todos.filter((todo) => !todo.completed).length} 項`;
+  clearCompletedButton.hidden = !todos.some((todo) => todo.completed);
 }
 
 themeToggle.addEventListener("click", () => {
@@ -117,6 +119,18 @@ systemTheme.addEventListener("change", (event) => {
   if (!localStorage.getItem(THEME_STORAGE_KEY)) {
     applyTheme(event.matches ? "dark" : "light");
   }
+});
+
+clearCompletedButton.addEventListener("click", () => {
+  const completedCount = todos.filter((todo) => todo.completed).length;
+  if (completedCount === 0) return;
+
+  const shouldClear = confirm(`確定要清除 ${completedCount} 個已完成事項嗎？`);
+  if (!shouldClear) return;
+
+  todos = todos.filter((todo) => !todo.completed);
+  saveTodos();
+  render();
 });
 
 // 新增一筆非空白的待辦事項。

@@ -17,6 +17,21 @@
   --shadow: 0 18px 50px rgba(47, 73, 65, 0.12);
 }
 
+body[data-theme="dark"] {
+  --color-background: #18211f;
+  --color-surface: #24302d;
+  --color-surface-muted: #2c3935;
+  --color-text: #edf4f0;
+  --color-text-muted: #a5b6af;
+  --color-border: #40504a;
+  --color-accent: #73c6ad;
+  --color-accent-hover: #91d9c1;
+  --color-danger: #f09b91;
+  --color-danger-hover: #4a302f;
+  --color-focus: #edbd70;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
+}
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -27,7 +42,7 @@ body {
   color: var(--color-text);
   background:
     radial-gradient(circle at 15% 10%, rgba(225, 168, 91, 0.16), transparent 28%),
-    linear-gradient(135deg, #f6f8f4 0%, var(--color-background) 100%);
+    linear-gradient(135deg, var(--color-surface-muted) 0%, var(--color-background) 100%);
   font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
 }
 
@@ -45,13 +60,42 @@ body {
   margin-bottom: 26px;
 }
 
+.header-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .eyebrow {
-  margin: 0 0 8px;
+  margin: 0;
   color: var(--color-accent);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.theme-toggle,
+.filter-button {
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.theme-toggle {
+  padding: 7px 10px;
+  font-size: 0.85rem;
+}
+
+.theme-toggle:hover,
+.filter-button:hover {
+  background: var(--color-surface-muted);
+  border-color: var(--color-accent);
 }
 
 h1 {
@@ -87,11 +131,13 @@ h1 {
 }
 
 .todo-input::placeholder {
-  color: #9aa8a3;
+  color: var(--color-text-muted);
 }
 
 .todo-input:focus-visible,
 .add-button:focus-visible,
+.theme-toggle:focus-visible,
+.filter-button:focus-visible,
 .delete-button:focus-visible,
 .todo-item input:focus-visible {
   outline: 3px solid rgba(225, 168, 91, 0.45);
@@ -113,6 +159,25 @@ h1 {
 .add-button:hover {
   background: var(--color-accent-hover);
   transform: translateY(-1px);
+}
+
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  padding: 8px 14px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.filter-button.active {
+  color: var(--color-surface);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  font-weight: 700;
 }
 
 .todo-list {
@@ -223,6 +288,10 @@ h1 {
 
   .todo-form {
     align-items: stretch;
+  }
+
+  .theme-toggle {
+    font-size: 0.8rem;
   }
 
   .add-button {

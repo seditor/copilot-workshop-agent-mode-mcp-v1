@@ -90,7 +90,7 @@ function render() {
   } else if (currentFilter === "active") {
     emptyState.textContent = "目前沒有未完成的事項。";
   } else if (currentFilter === "completed") {
-    emptyState.textContent = "目前沒有已完成的事項。";
+    emptyState.textContent = "目前沒有符合條件的已完成事項，其他項目可能只是被篩選掉了。";
   }
   remainingCount.textContent = `未完成:${todos.filter((todo) => !todo.completed).length} 項`;
 }
